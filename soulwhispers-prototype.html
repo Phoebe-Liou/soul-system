@@ -1,0 +1,74 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>靈魂停看聽 SoulWhispers</title><style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"PingFang TC",sans-serif;background:linear-gradient(160deg,#fbf7ef,#eee8f6);color:#554d66}main{max-width:760px;margin:auto;padding:18px 15px 55px}
+.hero{text-align:center;padding:28px 12px}.hero h1{font:700 34px Georgia,serif;margin:5px}.hero p{line-height:1.7}.card{background:#fffdf9;border:1px solid #cbb583;border-radius:22px;padding:18px;margin:13px 0;box-shadow:0 8px 25px #6b5d7b12}
+.step{font-size:12px;color:#a18148;font-weight:800}.card h2{margin:6px 0 8px;font-size:21px}.card p{line-height:1.65;font-size:14px}.tags{display:flex;gap:7px;flex-wrap:wrap}.tag{padding:7px 10px;background:#f1ecf4;border-radius:999px;font-size:12px}
+button,.btn{display:block;width:100%;border:0;border-radius:14px;padding:14px;margin-top:10px;background:#78678f;color:#fff;text-align:center;text-decoration:none;font-size:15px;font-weight:750}.gold{background:#b89b63}
+input,textarea,select{width:100%;border:1px solid #d6c9ae;border-radius:12px;padding:12px;margin:5px 0 8px;background:white;font-size:15px}textarea{min-height:85px}.small{font-size:12px;color:#766e79;line-height:1.6}
+#copybox{white-space:pre-wrap;background:#f4f0f6;padding:12px;border-radius:13px;font-size:12px;line-height:1.6}.footer{text-align:center;font-size:12px;line-height:1.7;margin-top:24px}.fb{color:#66577d;font-weight:700}
+</style></head><body><main>
+<section class="hero"><div>✦ SoulWhispers ✦</div><h1>靈魂停看聽</h1><p>當答案還不清楚，先停下來。<br>透過牌卡、星象與當下狀態，整理屬於你的線索。</p></section>
+
+<section class="card"><div class="step">01 · 此刻的迷惘</div><h2>你現在最想看清什麼？</h2>
+<select id="topic"><option>感情</option><option>工作</option><option>金錢</option><option>家庭</option><option>人際</option><option>自我探索</option><option>我也不知道，只是最近很迷惘</option></select>
+<textarea id="question" placeholder="可以用自己的話寫下最近讓你反覆思考的事……"></textarea>
+<div class="tags"><span class="tag">不用想得很完整</span><span class="tag">之後可以交給 AI 綜合整理</span></div></section>
+
+<section class="card"><div class="step">02 · 牌卡指引</div><h2>Tarot × Lenormand</h2>
+<p>由偉特塔羅與雷諾曼整理目前處境、內在心境、現實線索、可能發展與行動方向。</p>
+<button onclick="alert('雛形：下一階段會接回你已完成的塔羅／雷諾曼抽牌系統。')">進入牌卡指引</button></section>
+
+<section class="card"><div class="step">03 · 個人星圖</div><h2>Astrology</h2>
+<p>出生資料會用來建立星盤。正式版將以星曆程式計算行星度數、上升、宮位與主要相位，而不是由 AI 猜測。</p>
+<label>出生日期</label><input id="birthdate" type="date"><label>出生時間</label><input id="birthtime" type="time">
+<label>出生地點</label><input id="birthplace" placeholder="例如：桃園市／台北市">
+<div class="small">不知道精確出生時間也可以繼續，但正式版會標示上升、宮位等資料的限制。</div>
+<button class="gold" onclick="alert('雛形：此處下一階段接入真正的星曆計算。')">建立我的星圖</button></section>
+
+<section class="card"><div class="step">04 · 當下狀態</div><h2>Energy Camera × 芳香支持</h2>
+<p>Energy Camera 是選用體驗；完成後可把本次 CMOS 光學顯影結果帶到最終資料。芳香支持則會依問題、牌卡、占星主題與當下需求，從芳療資料庫挑選適合的方向。</p>
+<a class="btn" href="energy-camera-v7.html">開啟 Energy Camera</a>
+<button class="gold" onclick="alert('雛形：下一階段接入你的芳療知識庫，提供 2～3 支精油方向與注意事項。')">查看芳香支持</button></section>
+
+<section class="card"><div class="step">05 · Soul Guidance</div><h2>把線索帶給 AI</h2>
+<p>網站會把前面的資料整理成一份可複製內容。使用者可以貼到自己慣用的 AI，請 AI 做交叉分析。</p>
+<div id="copybox">按下「產生資料包」，這裡會整理你的資料。</div>
+<button onclick="makePack()">產生 Soul Guidance 資料包</button><button class="gold" onclick="copyPack()">複製完整資料</button></section>
+
+<div class="footer">靈魂停看聽 SoulWhispers<br><a class="fb" href="https://www.facebook.com/share/1FKjKWxcec/?mibextid=wwXIfr" target="_blank" rel="noopener">前往 SoulWhispers Facebook 社群</a><br><span class="small">塔羅、占星與芳香內容用於自我探索與整理思緒；重要的醫療、法律、財務或安全決定仍應使用相應的專業資訊。</span></div>
+</main><script>
+function makePack(){let t=document.getElementById('topic').value,q=document.getElementById('question').value||'尚未填寫',d=document.getElementById('birthdate').value||'尚未填寫',tm=document.getElementById('birthtime').value||'未知',p=document.getElementById('birthplace').value||'尚未填寫';
+document.getElementById('copybox').textContent=`【SoulWhispers｜靈魂停看聽 Soul Guidance】
+
+【我的主題】
+${t}
+
+【我目前的問題】
+${q}
+
+【塔羅／雷諾曼】
+（完成抽牌後由網站自動帶入）
+
+【出生資料】
+出生日期：${d}
+出生時間：${tm}
+出生地點：${p}
+
+【占星計算】
+（正式版由星曆程式自動帶入行星、宮位與相位）
+
+【Energy Camera】
+（若有進行，自動帶入本次光學顯影摘要）
+
+【芳香支持】
+請根據整體資料提供 2～3 支適合目前狀態的精油方向，並說明理由、使用方式與重要注意事項。
+
+請交叉分析以上資料，不要只逐項解牌或逐項解星盤。請協助我整理：
+1. 目前真正的核心課題
+2. 內在與現實之間可能的拉扯
+3. 值得留意的發展方向
+4. 現在可以採取的具體行動
+5. 適合此階段的芳香支持
+請避免把任何單一牌卡、占星配置或相機顯影解讀成必然發生的結果。`;}
+async function copyPack(){let s=document.getElementById('copybox').textContent;try{await navigator.clipboard.writeText(s);alert('已複製 Soul Guidance 資料。')}catch(e){alert('瀏覽器未允許自動複製，請長按文字手動複製。')}}
+</script></body></html>
