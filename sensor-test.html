@@ -1,0 +1,21 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Soul System 感測器檢測</title>
+<style>body{font-family:-apple-system,"PingFang TC",sans-serif;background:#efedf6;color:#39364d;margin:0}main{max-width:650px;margin:auto;padding:24px 16px}.card{background:#fff;border-radius:20px;padding:16px;margin:12px 0}.row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee}.ok{color:#287354}.no{color:#a34c5c}button{width:100%;padding:14px;border:0;border-radius:30px;background:#66679a;color:#fff;font-size:16px}.vals{display:grid;grid-template-columns:1fr 1fr;gap:8px}.v{background:#f4f1f6;border-radius:14px;padding:12px;text-align:center}.n{font-size:21px}video{width:100%;height:230px;object-fit:cover;border-radius:16px;background:#222;transform:scaleX(-1)}small{line-height:1.6;color:#6d6978}</style></head>
+<body><main><h1>✦ 手機感測器檢測</h1><p>靈魂停看聽 · 技術測試</p>
+<div class="card"><div class="row">📷 相機 <b id="cam">尚未測試</b></div><div class="row">📱 手機動作 <b id="mot">尚未測試</b></div><div class="row">🔄 手機方向 <b id="ori">尚未測試</b></div><div class="row">🧲 原始磁場 X/Y/Z <b id="mag">尚未測試</b></div></div>
+<button id="start">開始檢測</button>
+<div class="card"><h3>🧲 磁場即時資料</h3><div class="vals"><div class="v">X<div id="x" class="n">—</div></div><div class="v">Y<div id="y" class="n">—</div></div><div class="v">Z<div id="z" class="n">—</div></div><div class="v">總磁場<div id="tot" class="n">—</div></div></div><p><small>只有瀏覽器真的提供磁力計資料時才顯示數字，本頁不製造示範數值。</small></p></div>
+<div class="card"><h3>📷 相機確認</h3><video id="vid" playsinline muted></video></div>
+<div class="card"><h3>怎麼測</h3><p>① 按開始檢測並允許權限。<br>② 等約 5 秒。<br>③ 若磁場出現數字，先保持手機不動觀察。<br>④ 再慢慢靠近有磁性的日常物品，觀察數值是否改變，之後移遠再比較。</p><small>磁力計量到的是手機所在位置周遭磁場，不代表人體氣場，也不能證明靈體存在。</small></div>
+<script>
+let ms=false,os=false,gs=false;const E=id=>document.getElementById(id);function S(id,t,c){E(id).textContent=t;E(id).className=c||""}
+E("start").onclick=async()=>{
+["cam","mot","ori","mag"].forEach(i=>S(i,"檢查中…"));
+try{let s=await navigator.mediaDevices.getUserMedia({video:{facingMode:"user"},audio:false});E("vid").srcObject=s;await E("vid").play();S("cam","可用 ✓","ok")}catch(e){S("cam","不可用／未授權","no")}
+try{if(DeviceMotionEvent&&typeof DeviceMotionEvent.requestPermission==="function")await DeviceMotionEvent.requestPermission()}catch(e){}
+try{if(DeviceOrientationEvent&&typeof DeviceOrientationEvent.requestPermission==="function")await DeviceOrientationEvent.requestPermission()}catch(e){}
+addEventListener("devicemotion",()=>{ms=true;S("mot","可用 ✓","ok")},{once:true});
+addEventListener("deviceorientation",()=>{os=true;S("ori","可用 ✓","ok")},{once:true});
+try{if("Magnetometer" in window){let m=new Magnetometer({frequency:10});m.onreading=()=>{gs=true;let a=m.x,b=m.y,c=m.z,t=Math.sqrt(a*a+b*b+c*c);E("x").textContent=a.toFixed(1)+" µT";E("y").textContent=b.toFixed(1)+" µT";E("z").textContent=c.toFixed(1)+" µT";E("tot").textContent=t.toFixed(1)+" µT";S("mag","可用 ✓","ok")};m.onerror=()=>S("mag","瀏覽器未提供／未授權","no");m.start()}else S("mag","瀏覽器未提供","no")}catch(e){S("mag","瀏覽器未提供／未授權","no")}
+setTimeout(()=>{if(!ms)S("mot","未取得","no");if(!os)S("ori","未取得","no");if(!gs&&E("mag").textContent==="檢查中…")S("mag","未取得","no")},5000)
+};
+</script></main></body></html>
