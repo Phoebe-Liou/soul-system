@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Energy Camera v8 · SoulWhispers Journey</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(155deg,#faf6ef,#eee8f5);color:#554d66;font-family:-apple-system,BlinkMacSystemFont,"PingFang TC",sans-serif}
+main{max-width:720px;margin:auto;padding:16px 14px 48px}h1{text-align:center;font:700 30px Georgia,serif;margin:8px}.sub{text-align:center;font-size:13px}
+.card{background:#fffdf9;border:1px solid #cbb583;border-radius:22px;padding:15px;margin:12px 0;box-shadow:0 8px 24px #67587a12}
+.stage{position:relative;aspect-ratio:3/4;background:#111;border-radius:18px;overflow:hidden}
+video,#photo,#fx{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}#photo,#fx{display:none}.guide{position:absolute;inset:7%;border:1px dashed #ffe5a8aa;border-radius:16px;pointer-events:none}
+.status{text-align:center;padding:12px;font-weight:700;min-height:46px}.bar{height:8px;background:#e5deea;border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#b99d64,#806e99)}
+.buttons{display:flex;gap:8px;margin-top:10px}button{flex:1;border:0;border-radius:14px;padding:13px;background:#78678f;color:#fff;font-weight:700;font-size:15px}button.alt{background:#b89b63}button:disabled{opacity:.45}
+#result{display:none}.headline{text-align:center;font-size:20px;font-weight:800;margin:5px 0 12px}.summary{display:grid;grid-template-columns:1fr 1fr;gap:8px}.m{background:#f4f0f6;border-radius:13px;padding:10px;font-size:12px}.m b{display:block;font-size:16px;margin-top:3px}
+.colors{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:12px}.chip{padding:7px 10px;border:1px solid #cdb98e;border-radius:999px;font-size:12px;background:#fff}
+details{margin-top:12px;border-top:1px solid #ddd2bf;padding-top:10px}summary{cursor:pointer;font-weight:700}.event{background:#f4f0f6;border-radius:12px;padding:9px;margin:7px 0;font-size:12px;line-height:1.55}.note{font-size:12px;line-height:1.65;color:#746b7a}#work{display:none}.journey{margin-top:14px}.journey button{width:100%;background:#b89b63}.saved{font-size:12px;text-align:center;margin-top:8px;color:#756b78}
+</style></head>
+<body><main>
+<h1>Energy Camera v8</h1><div class="sub">SoulWhispers · CMOS 自由光學訊號顯影</div>
+
+<div class="card">
+<div class="stage"><video id="v" autoplay muted playsinline></video><canvas id="photo"></canvas><canvas id="fx"></canvas><div class="guide"></div></div>
+<div class="status" id="status">前 3 秒建立空景基準；後 7 秒自由追蹤人物與周圍空間。</div>
+<div class="bar"><i id="progress"></i></div>
+<div class="buttons"><button id="go">開始 10 秒掃描</button><button class="alt" id="flip">切換鏡頭</button></div>
+</div>
+
+<div class="card" id="result">
+<div class="headline" id="headline"></div>
+<div class="summary">
+<div class="m">顯影強度<b id="strength">—</b></div>
+<div class="m">訊號穩定度<b id="stable">—</b></div>
+<div class="m">持續訊號群<b id="count">—</b></div>
+<div class="m">最長持續時間<b id="duration">—</b></div>
+</div>
+<div class="colors" id="colors"></div>
+<details><summary>查看研究資料</summary><div id="research"></div></details>
+<div class="journey"><button id="continueJourney" disabled>✦ 保存顯影・繼續靈魂旅程 →</button>
+<div class="saved" id="savedMsg">掃描完成後，請按下方按鈕保存結果並繼續下一站。</div></div>
+</div>
+
+<div class="card note">本功能呈現相機 CMOS 影格中相對於基準的持續局部光學差異。顏色是本次影像訊號的視覺化結果；若延伸為紅＝行動、藍＝平靜等內容，屬於 SoulWhispers 的象徵性詮釋層，而不是 CMOS 對心理、脈輪或能量狀態的直接測量。</div>
+<canvas id="work" width="160" height="120"></canvas>
+</main>
+<script>
+const $=s=>document.querySelector(s),v=$('#v'),w=$('#work'),x=w.getContext('2d',{willReadFrequently:true}),statusEl=$('#status'),progress=$('#progress');
+let stream,face='user',busy=false,lastSoulResult=null;const GW=10,GH=8,N=80,FPS=8;
+async function camera(){if(stream)stream.getTracks().forEach(t=>t.stop());stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:face}},audio:false});v.srcObject=stream;await v.play()}
+camera().catch(()=>statusEl.textContent='請允許瀏覽器使用相機。');
+flip.onclick=async()=>{if(busy)return;face=face==='user'?'environment':'user';try{await camera()}catch(e){}};
+const L=a=>.2126*a[0]+.7152*a[1]+.0722*a[2],sleep=m=>new Promise(r=>setTimeout(r,m));
+function frame(){x.drawImage(v,0,0,160,120);let d=x.getImageData(0,0,160,120).data,C=Array.from({length:N},()=>[0,0,0,0]),A=[0,0,0,0];
+for(let y=0;y<120;y++)for(let q=0;q<160;q++){let i=(y*160+q)*4,k=Math.min(GW-1,Math.floor(q/160*GW))+GW*Math.min(GH-1,Math.floor(y/120*GH)),r=d[i],g=d[i+1],b=d[i+2],c=C[k];c[0]+=r;c[1]+=g;c[2]+=b;c[3]++;A[0]+=r;A[1]+=g;A[2]+=b;A[3]++}
+let av=a=>[a[0]/a[3],a[1]/a[3],a[2]/a[3]];return{c:C.map(av),a:av(A)}}
+async function collect(sec,lo,hi){let A=[],fl=[],last,t=performance.now();while(performance.now()-t<sec*1000){let f=frame();A.push(f);if(last)fl.push(Math.abs(L(f.a)-L(last.a)));last=f;progress.style.width=(lo+(hi-lo)*(performance.now()-t)/(sec*1000))+'%';await sleep(1000/FPS)}return{A,fl}}
+function meanCells(F){return Array.from({length:N},(_,k)=>[0,1,2].map(c=>F.reduce((s,f)=>s+f.c[k][c],0)/F.length))}
+function meanAll(F){return[0,1,2].map(c=>F.reduce((s,f)=>s+f.a[c],0)/F.length)}
+function hue(r,g,b){r=Math.max(0,Math.min(255,r))/255;g=Math.max(0,Math.min(255,g))/255;b=Math.max(0,Math.min(255,b))/255;let M=Math.max(r,g,b),m=Math.min(r,g,b),d=M-m;if(d<.004)return null;let h=M===r?((g-b)/d)%6:M===g?(b-r)/d+2:(r-g)/d+4;return(h*60+360)%360}
+function cname(h){if(h==null)return'中性';if(h<18||h>=345)return'玫瑰紅';if(h<45)return'暖橙';if(h<70)return'淡金';if(h<155)return'青綠';if(h<205)return'青藍';if(h<255)return'霧藍';if(h<300)return'紫羅蘭';return'玫紫'}
+go.onclick=async()=>{if(busy)return;busy=true;go.disabled=flip.disabled=true;$('#result').style.display='none';$('#photo').style.display=$('#fx').style.display='none';progress.style.width='0%';
+try{
+statusEl.textContent='3 秒空景校準：請離開畫面，手機不要移動。';let A=await collect(3,0,30),bc=meanCells(A.A),ba=meanAll(A.A);
+statusEl.textContent='請進入畫面…';await sleep(650);statusEl.textContent='7 秒自由追蹤：保持自然，手機不要移動。';let B=await collect(7,30,100),pa=meanAll(B.A);
+let active=Array.from({length:N},()=>[]),mags=Array.from({length:N},()=>[]),hues=Array.from({length:N},()=>[]);
+B.A.forEach(f=>{let global=[0,1,2].map(c=>f.a[c]-ba[c]);for(let k=0;k<N;k++){let d=[0,1,2].map(c=>f.c[k][c]-bc[k][c]-global[c]),mag=Math.hypot(...d),h=hue(128+d[0]*3,128+d[1]*3,128+d[2]*3);active[k].push(mag>=11);mags[k].push(mag);hues[k].push(h)}});
+let events=[];
+for(let k=0;k<N;k++){let a=active[k],start=null;for(let i=0;i<=a.length;i++){if(i<a.length&&a[i]&&start===null)start=i;if((i===a.length||!a[i])&&start!==null){let len=i-start;if(len>=4){let mm=mags[k].slice(start,i),hh=hues[k].slice(start,i).filter(h=>h!=null),mag=mm.reduce((s,q)=>s+q,0)/mm.length,wave=mm.reduce((s,q,j)=>j?s+Math.abs(q-mm[j-1]):s,0)/Math.max(1,mm.length-1),h=hh.length?hh.reduce((s,q)=>s+q,0)/hh.length:null;events.push({k,x:k%GW,y:Math.floor(k/GW),dur:len/FPS,mag,wave,h});}start=null}}}
+events=events.filter(e=>e.dur>=.5&&e.mag>=12).sort((a,b)=>(b.mag*b.dur)-(a.mag*a.dur));
+let pic=$('#photo'),fx=$('#fx');pic.width=fx.width=v.videoWidth;pic.height=fx.height=v.videoHeight;pic.getContext('2d').drawImage(v,0,0,pic.width,pic.height);pic.style.display=fx.style.display='block';let o=fx.getContext('2d');o.clearRect(0,0,fx.width,fx.height);
+events.slice(0,16).forEach(e=>{let cx=(e.x+.5)/GW*fx.width,cy=(e.y+.5)/GH*fx.height,R=Math.max(fx.width/GW,fx.height/GH)*1.45,h=e.h??50,alpha=Math.min(.62,.12+e.mag/90+e.dur/14),g=o.createRadialGradient(cx,cy,0,cx,cy,R);g.addColorStop(0,`hsla(${h},82%,64%,${alpha})`);g.addColorStop(1,`hsla(${h},82%,64%,0)`);o.fillStyle=g;o.fillRect(cx-R,cy-R,R*2,R*2)});
+let bins=Array(24).fill(0);events.forEach(e=>{if(e.h!=null)bins[Math.floor(e.h/15)%24]+=e.mag*e.dur});let peaks=bins.map((w,i)=>({w,h:i*15+7.5})).sort((a,b)=>b.w-a.w).filter(e=>e.w>0),picked=[];for(let p of peaks){if(picked.every(q=>Math.min(Math.abs(p.h-q.h),360-Math.abs(p.h-q.h))>=30)){picked.push(p);if(picked.length===5)break}}
+let sum=picked.reduce((s,p)=>s+p.w,0),C=$('#colors');C.innerHTML='';if(!picked.length)C.innerHTML='<span class="chip">本次沒有足夠的持續色相訊號</span>';else picked.forEach(p=>C.innerHTML+=`<span class="chip" style="box-shadow:inset 0 -3px 0 hsl(${p.h},60%,70%)">${cname(p.h)} ${Math.round(p.w/sum*100)}% · ${p.h.toFixed(0)}°</span>`);
+let avg=events.reduce((s,e)=>s+e.mag*e.dur,0)/Math.max(1,events.reduce((s,e)=>s+e.dur,0)),maxDur=events.length?Math.max(...events.map(e=>e.dur)):0,tw=B.fl.reduce((s,q)=>s+q,0)/Math.max(1,B.fl.length);
+$('#headline').textContent=events.length?'本次 CMOS 持續光學訊號顯影':'本次沒有足夠的持續局部訊號';$('#strength').textContent=events.length?avg.toFixed(1):'不足';$('#stable').textContent=events.length?(tw<2?'高':tw<5?'中':'低'):'—';$('#count').textContent=events.length;$('#duration').textContent=maxDur.toFixed(2)+' 秒';
+let stableText=events.length?(tw<2?'高':tw<5?'中':'低'):'—';
+let colorData=picked.map(p=>({name:cname(p.h),percent:sum?Math.round(p.w/sum*100):0,hue:Math.round(p.h)}));
+lastSoulResult={version:'v8',strength:events.length?avg.toFixed(1):'不足',stability:stableText,eventCount:events.length,maxDuration:maxDur.toFixed(2),colors:colorData,createdAt:new Date().toISOString()};
+$('#continueJourney').disabled=false;$('#savedMsg').textContent='結果已準備好，可保存並繼續。';
+let R=$('#research');R.innerHTML=`<div class="event">空景 RGB：${ba.map(q=>q.toFixed(1)).join(' / ')}<br>人物 RGB：${pa.map(q=>q.toFixed(1)).join(' / ')}<br>全畫面時間波動：${tw.toFixed(2)}</div>`;
+events.slice(0,20).forEach((e,i)=>R.innerHTML+=`<div class="event">訊號 ${i+1}｜${cname(e.h)} ${e.h==null?'—':e.h.toFixed(0)+'°'}｜位置 ${Math.round((e.x+.5)/GW*100)}% × ${Math.round((e.y+.5)/GH*100)}%｜強度 ${e.mag.toFixed(2)}｜局部波動 ${e.wave.toFixed(2)}｜持續 ${e.dur.toFixed(2)} 秒</div>`);
+$('#result').style.display='block';statusEl.textContent='完成。色相、位置與數量皆由本次 CMOS 影格資料決定。';
+}catch(e){statusEl.textContent='掃描失敗：'+e.message}
+busy=false;go.disabled=flip.disabled=false;progress.style.width='100%';
+};
+
+$('#continueJourney').onclick=()=>{
+ if(!lastSoulResult)return;
+ const c=lastSoulResult.colors.length?lastSoulResult.colors.map(q=>`${q.name} ${q.percent}% · ${q.hue}°`).join('、'):'沒有足夠的持續色相訊號';
+ const summary=`顯影強度：${lastSoulResult.strength}；訊號穩定度：${lastSoulResult.stability}；最長持續時間：${lastSoulResult.maxDuration} 秒；主要光學色相：${c}`;
+ localStorage.setItem('sw_energy',summary);
+ localStorage.setItem('sw_energy_data',JSON.stringify(lastSoulResult));
+ $('#savedMsg').textContent='✓ 已保存，正在返回 SoulWhispers 星夜靈魂旅程…';
+ window.location.href="soulwhispers-starry-v8-fixed.html#energy-section";
+};
+
+</script></body></html>

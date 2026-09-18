@@ -1,0 +1,220 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>SoulWhispers 靈魂旅程 v3</title>
+<style>*{box-sizing:border-box}body{
+  margin:0;
+  color:#ece9f5;
+  font-family:-apple-system,"PingFang TC",sans-serif;
+  background:
+    radial-gradient(circle at 14% 10%, rgba(169,129,255,.26) 0%, transparent 24%),
+    radial-gradient(circle at 82% 14%, rgba(84,125,255,.20) 0%, transparent 26%),
+    radial-gradient(circle at 50% 36%, rgba(255,214,141,.10) 0%, transparent 22%),
+    radial-gradient(circle at 48% 78%, rgba(124,89,184,.22) 0%, transparent 34%),
+    linear-gradient(165deg,#141325 0%,#1f1e38 34%,#2c2a4f 68%,#1a1930 100%);
+  background-attachment:fixed;
+  position:relative;
+}main{max-width:760px;margin:auto;padding:16px 14px 55px}.hero{text-align:center;padding:26px 10px 18px}.hero h1{font:700 34px Georgia,serif;margin:6px}.card{
+  background:linear-gradient(180deg,rgba(35,34,59,.80),rgba(31,30,52,.74));
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(219,196,145,.34);
+  border-radius:24px;
+  padding:18px;
+  margin:14px 0;
+  box-shadow:0 18px 44px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.06);
+  position:relative;
+  overflow:hidden;
+}.step{font-size:12px;color:#9a7c43;font-weight:800}h2{margin:5px 0 10px}p{font-size:14px;line-height:1.65}input,textarea,select{width:100%;padding:12px;border:1px solid #d6c9ae;border-radius:12px;background:#fff;margin:5px 0 8px;font-size:15px}textarea{min-height:80px}button,.btn{
+  display:block;width:100%;border:1px solid rgba(230,207,155,.34);border-radius:15px;padding:14px;margin-top:10px;
+  background:linear-gradient(135deg,#7c6aa5,#4f557f);
+  color:#fffdf8;text-align:center;text-decoration:none;font-size:15px;font-weight:750;
+  box-shadow:0 10px 24px rgba(25,20,50,.36);
+}.gold{background:linear-gradient(135deg,#bda46f,#806c3f)}.result{background:#f4f0f6;border-radius:13px;padding:12px;margin-top:10px;line-height:1.7}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.small{font-size:12px;color:#766e79;line-height:1.55}.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{background:#eee8f3;border-radius:999px;padding:7px 9px;font-size:12px}#pack{white-space:pre-wrap;font-size:12px}.footer{text-align:center;font-size:12px;line-height:1.8;margin-top:25px}
+.socialCard{margin-top:18px;padding:18px 16px;border:1px solid #cbb583;border-radius:18px;background:#fffdf9;text-align:center}
+.socialTitle{font-size:17px;font-weight:800;color:#554d66;margin-bottom:6px}
+.socialText{font-size:13px;line-height:1.7;color:#766e79;margin-bottom:12px}
+.fbBtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px 16px;border-radius:14px;background:#1877F2;color:#fff;text-decoration:none;font-size:16px;font-weight:800;box-shadow:0 8px 18px rgba(24,119,242,.18)}
+.fbBtn svg{width:24px;height:24px;fill:#fff;flex:none}
+.fbBtn:hover{opacity:.94}.resetAll{margin-top:14px;background:#8b7f88}.resetAll:hover{opacity:.92}.hero,.hero h1,.card h2,.socialTitle{color:#f0edf8}.step{color:#d8c48d}.card p,.small,.socialText{color:#c9c3d8}
+input,textarea,select{background:rgba(255,255,255,.08);color:#f3f0f7;border-color:rgba(218,192,132,.38)}
+input::placeholder,textarea::placeholder{color:#aaa4bb}.result{background:rgba(255,255,255,.06);color:#ece9f5;border-color:rgba(219,196,145,.22)}
+.footer{color:#bbb4c9}.socialCard{background:rgba(31,30,52,.78);border-color:rgba(218,192,132,.42)}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(circle,rgba(255,255,255,.65) 0 1px,transparent 1.3px),radial-gradient(circle,rgba(224,199,137,.45) 0 1px,transparent 1.4px);background-size:53px 53px,79px 79px;background-position:0 0,18px 27px;opacity:.4}
+
+.hero{padding:34px 12px 20px;position:relative}
+.hero h1{
+  color:#f5f0ff;
+  text-shadow:0 0 12px rgba(188,157,255,.18),0 0 28px rgba(116,153,255,.16);
+}
+.hero:before{
+  content:"✦";
+  position:absolute;
+  left:18%;
+  top:8px;
+  color:rgba(237,215,160,.78);
+  font-size:20px;
+  text-shadow:0 0 10px rgba(237,215,160,.35);
+}
+.hero:after{
+  content:"✦";
+  position:absolute;
+  right:18%;
+  top:8px;
+  color:rgba(237,215,160,.78);
+  font-size:20px;
+  text-shadow:0 0 10px rgba(237,215,160,.35);
+}
+.card h2,.socialTitle{
+  color:#f4effd;
+  text-shadow:0 0 10px rgba(184,158,244,.12);
+}
+.step{
+  color:#dcc78e;
+  letter-spacing:.08em;
+}
+button,.btn{
+  position:relative;
+}
+button:before,.btn:before{
+  content:"";
+  position:absolute;
+  inset:1px;
+  border-radius:inherit;
+  background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,0));
+  pointer-events:none;
+}
+.result{
+  background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.04));
+}
+.socialCard{
+  background:linear-gradient(180deg,rgba(33,32,56,.86),rgba(28,27,46,.78));
+  border-color:rgba(218,192,132,.34);
+}
+.fbBtn{
+  box-shadow:0 12px 28px rgba(24,119,242,.22),0 0 0 1px rgba(255,255,255,.04) inset;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    radial-gradient(circle,rgba(255,255,255,.82) 0 1px,transparent 1.4px),
+    radial-gradient(circle,rgba(230,205,144,.55) 0 1px,transparent 1.6px),
+    radial-gradient(circle,rgba(181,162,255,.38) 0 1px,transparent 1.6px);
+  background-size:58px 58px,87px 87px,131px 131px;
+  background-position:0 0,19px 31px,47px 18px;
+  opacity:.46;
+}
+body:after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 22% 18%, rgba(255,223,157,.07), transparent 18%),
+    radial-gradient(circle at 78% 26%, rgba(183,167,255,.08), transparent 18%),
+    radial-gradient(circle at 50% 65%, rgba(110,170,255,.06), transparent 20%);
+  filter:blur(14px);
+}
+.card:before{
+  content:"";
+  position:absolute;
+  inset:auto -8% 58% auto;
+  width:120px;
+  height:120px;
+  background:radial-gradient(circle,rgba(234,203,132,.12),transparent 68%);
+  pointer-events:none;
+}
+
+</style></head><body><main>
+<div class="hero"><div>✦ SoulWhispers ✦</div><h1>靈魂停看聽</h1><p>當心裡的霧還沒有散去，讓 SoulWhispers 陪你拾起沿途的微光。透過牌卡、星象與此刻的感受，我們陪你慢慢看清問題、聽見內在的聲音，找到屬於自己的方向。</p>
+</div>
+
+<section class="card" id="question-step"><div class="step">01 · 此刻的迷惘</div><h2>你現在最想看清什麼？</h2><select id="topic"><option>感情</option><option>工作</option><option>金錢</option><option>家庭</option><option>人際</option><option>自我探索</option><option>我也不知道，只是最近很迷惘</option></select><textarea id="question" placeholder="寫下最近讓你反覆思考的事……"></textarea></section>
+
+<section class="card" id="cards-step"><div class="step">02 · 牌卡指引</div><h2>Tarot × Lenormand</h2>
+<p>沿用「柳柳塔羅 × SoulWhispers」原本的完整牌卡視覺、洗牌動畫、翻牌與牌陣。你的問題會自動帶入，不需要再輸入一次。</p>
+<div class="result" id="cards">尚未完成牌卡旅程</div>
+<button onclick="goCards()">帶著我的問題去洗牌・抽牌</button></section>
+
+<section class="card" id="astrology-step"><div class="step">03 · 個人星圖</div><h2>Astrology</h2><p>這一版先收集完整出生資料；星盤數值不由 AI 猜。精確計算版將使用瀏覽器 Swiss Ephemeris，包含行星度數、上升、MC、宮位與相位。</p>
+<div class="row"><div><label>出生日期</label><input id="bd" type="date"></div><div><label>出生時間</label><input id="bt" type="time"></div></div><label>出生地點</label><input id="bp" placeholder="例如：桃園市"><div class="small">出生地點很重要，因為上升與宮位需要經緯度；不知道出生時間仍可使用，但不顯示不可靠的上升與宮位。</div>
+<button onclick="saveAstro()">保存出生資料</button><div class="result" id="astro">尚未建立出生資料</div></section>
+
+<section class="card" id="energy-section"><div class="step">04 · 當下狀態</div><h2>Energy Camera × 芳香支持</h2><p>做完 Energy Camera 後，按「保存本次顯影・繼續靈魂旅程」，結果會自動帶回這裡。接著選擇芳香支持，再前往 Soul Guidance。</p>
+<a class="btn" href="energy-camera-v8-fixed.html">開啟 Energy Camera v8</a><div class="result" id="energy">尚未帶回 Energy Camera 結果（這一步可以略過）</div>
+<label>此刻最希望被支持的是？</label><select id="aroma"><option>放鬆與安定</option><option>提振與行動力</option><option>專注與清晰</option><option>情緒陪伴</option><option>睡前沉澱</option></select><button class="gold" onclick="aroma()">取得芳香方向</button><div class="result" id="aromaR">尚未選擇</div></section>
+
+<section class="card" id="guidance-step"><div class="step">05 · Soul Guidance</div><h2>整理成一份完整資料</h2><p>按一下就把前面的資料整理好，再貼給你慣用的 AI 做交叉分析。</p><div class="result" id="pack">尚未產生</div><button onclick="makePack()">產生完整資料包</button></section>
+
+<button class="resetAll" onclick="resetJourney()">開始新的靈魂旅程</button>
+<div class="socialCard">
+  <div class="socialTitle">想聊聊嗎？</div>
+  <div class="socialText">如果你想分享這次的靈魂旅程、交流牌卡與生活中的感受，歡迎來到「靈魂停看聽 SoulWhispers」社群。</div>
+  <a class="fbBtn" href="https://www.facebook.com/share/1FKjKWxcec/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="前往靈魂停看聽 Facebook 社群">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.413c0-3.027 1.792-4.698 4.533-4.698 1.312 0 2.686.236 2.686.236v2.973h-1.513c-1.49 0-1.956.931-1.956 1.887v2.262h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+    前往靈魂停看聽 Facebook 社群
+  </a>
+</div>
+<div class="footer">靈魂停看聽 SoulWhispers</div>
+<script>
+let cardText = localStorage.getItem("sw_cards_summary") || "";
+
+function saveQuestion(){
+  const q=document.getElementById("question").value.trim();
+  localStorage.setItem("sw_question",q);
+  localStorage.setItem("sw_topic",document.getElementById("topic").value);
+  return q;
+}
+function goCards(){
+  const q=saveQuestion();
+  if(!q){alert("請先在第 1 步寫下你現在想探索的問題。");document.getElementById("question").focus();return;}
+  window.location.href="soulwhispers-cards-v8-fixed.html";
+}
+function saveAstro(){let d=bd.value,t=bt.value,p=bp.value;if(!d||!p){astro.textContent="請至少填寫出生日期與出生地點。";return}astro.textContent=`出生：${d} ${t||"時間未知"}｜${p}\n已保存。下一版接入精確星曆計算後，這裡會直接顯示行星、上升、宮位與主要相位。`;localStorage.setItem("sw_birth",JSON.stringify({d,t,p}))}
+function aroma(){let k=document.getElementById("aroma").value,map={"放鬆與安定":"真正接入芳療資料庫後，從安全條件與個人需求篩選 2～3 支精油。","提振與行動力":"真正接入芳療資料庫後，從安全條件與個人需求篩選 2～3 支精油。","專注與清晰":"真正接入芳療資料庫後，從安全條件與個人需求篩選 2～3 支精油。","情緒陪伴":"真正接入芳療資料庫後，從安全條件與個人需求篩選 2～3 支精油。","睡前沉澱":"真正接入芳療資料庫後，從安全條件與個人需求篩選 2～3 支精油。"};aromaR.textContent=k+"："+map[k]}
+function makePack(){let e=localStorage.getItem("sw_energy")||"未進行／尚未串回",b=localStorage.getItem("sw_birth");let B=b?JSON.parse(b):null;let savedQ=localStorage.getItem("sw_question")||question.value||"尚未填寫", savedT=localStorage.getItem("sw_topic")||topic.value; let s=`【SoulWhispers 靈魂停看聽｜Soul Guidance】\n\n【我的主題】${savedT}\n【我的問題】${savedQ}\n\n【塔羅／雷諾曼】\n${localStorage.getItem("sw_cards_summary")||"尚未抽牌"}\n\n【出生資料】\n${B?`${B.d} ${B.t||"時間未知"}｜${B.p}`:"尚未填寫"}\n【占星計算】精確星曆模組接入後自動帶入\n\n【Energy Camera｜CMOS 光學顯影】\n${e}\n\n【芳香支持需求】${document.getElementById("aroma").value}\n\n請交叉分析以上資料，協助我整理：核心課題、內在與現實的拉扯、值得留意的方向、可採取的具體行動，以及 2～3 支芳香支持建議與安全注意事項。不要把單一牌卡、占星配置或相機顯影視為必然結果。`;pack.textContent=s}
+async function copyPack(){if(pack.textContent==="尚未產生")makePack();try{await navigator.clipboard.writeText(pack.textContent);alert("已複製，可以貼給 AI。")}catch(e){alert("請長按資料內容手動複製。")}}
+let savedQuestion=localStorage.getItem("sw_question");if(savedQuestion)document.getElementById("question").value=savedQuestion;
+let savedTopic=localStorage.getItem("sw_topic");if(savedTopic)document.getElementById("topic").value=savedTopic;
+let savedCards=localStorage.getItem("sw_cards_summary");if(savedCards){document.getElementById("cards").textContent="✓ 牌卡已完成\n"+savedCards.split("\n").slice(0,9).join("\n");}
+let er=localStorage.getItem("sw_energy"),ed=localStorage.getItem("sw_energy_data");
+if(er){
+ let extra="";
+ try{
+   let D=JSON.parse(ed||"{}"), top=(D.colors||[])[0];
+   const meaning={玫瑰紅:"行動・生命力・界線",暖橙:"創造・互動・流動",淡金:"專注・自我力量・方向",青綠:"平衡・連結・恢復",青藍:"表達・清晰・溝通",霧藍:"平靜・沉澱・內在空間",紫羅蘭:"內省・想像・意義探索",玫紫:"感受・直覺・內在整合"};
+   if(top) extra=`\nSoulWhispers 象徵主題：${meaning[top.name]||"自我探索"}\n（象徵性詮釋，不是 CMOS 對心理狀態的直接測量）`;
+ }catch(e){}
+ energy.textContent="✓ Energy Camera 已完成\n"+er+extra;
+ setTimeout(()=>document.getElementById("energy-section").scrollIntoView({behavior:"smooth",block:"start"}),250);
+}
+let sb=localStorage.getItem("sw_birth");if(sb){let B=JSON.parse(sb);bd.value=B.d||"";bt.value=B.t||"";bp.value=B.p||""}
+
+document.getElementById("question").addEventListener("input",saveQuestion);
+document.getElementById("topic").addEventListener("change",saveQuestion);
+if(location.hash==="#astrology-step")setTimeout(()=>document.getElementById("astrology-step").scrollIntoView({behavior:"smooth"}),180);
+if(location.hash==="#energy-section")setTimeout(()=>document.getElementById("energy-section").scrollIntoView({behavior:"smooth"}),180);
+
+function resetJourney(){
+  const ok = confirm("要清除這次靈魂旅程的問題、牌卡、出生資料、Energy Camera 與芳香選擇，重新開始嗎？");
+  if(!ok) return;
+  [
+    "sw_question","sw_topic","sw_cards_data","sw_cards_summary",
+    "sw_birth","sw_energy","sw_energy_data"
+  ].forEach(k=>localStorage.removeItem(k));
+  document.getElementById("question").value="";
+  document.getElementById("topic").selectedIndex=0;
+  document.getElementById("cards").textContent="尚未完成牌卡旅程";
+  document.getElementById("bd").value="";
+  document.getElementById("bt").value="";
+  document.getElementById("bp").value="";
+  document.getElementById("astro").textContent="尚未建立出生資料";
+  document.getElementById("energy").textContent="尚未帶回 Energy Camera 結果（這一步可以略過）";
+  document.getElementById("aromaR").textContent="尚未選擇";
+  document.getElementById("pack").textContent="尚未產生";
+  location.hash="#question-step";
+  setTimeout(()=>document.getElementById("question-step").scrollIntoView({behavior:"smooth",block:"start"}),120);
+  alert("已清除這次旅程資料，可以重新測試。");
+}
+
+</script></body></html>
