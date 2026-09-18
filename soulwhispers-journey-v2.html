@@ -1,0 +1,44 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>SoulWhispers 靈魂旅程 v2</title>
+<style>*{box-sizing:border-box}body{margin:0;background:linear-gradient(150deg,#fbf7ef,#eee8f6);color:#554d66;font-family:-apple-system,"PingFang TC",sans-serif}main{max-width:760px;margin:auto;padding:16px 14px 55px}.hero{text-align:center;padding:22px 8px}.hero h1{font:700 34px Georgia,serif;margin:6px}.card{background:#fffdf9;border:1px solid #cbb583;border-radius:22px;padding:17px;margin:13px 0}.step{font-size:12px;color:#9a7c43;font-weight:800}h2{margin:5px 0 10px}p{font-size:14px;line-height:1.65}input,textarea,select{width:100%;padding:12px;border:1px solid #d6c9ae;border-radius:12px;background:#fff;margin:5px 0 8px;font-size:15px}textarea{min-height:80px}button,.btn{display:block;width:100%;border:0;border-radius:14px;padding:13px;margin-top:9px;background:#78678f;color:#fff;text-align:center;text-decoration:none;font-weight:750;font-size:15px}.gold{background:#b89b63}.result{background:#f4f0f6;border-radius:13px;padding:12px;margin-top:10px;line-height:1.7}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.small{font-size:12px;color:#766e79;line-height:1.55}.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{background:#eee8f3;border-radius:999px;padding:7px 9px;font-size:12px}#pack{white-space:pre-wrap;font-size:12px}.footer{text-align:center;font-size:12px;line-height:1.8;margin-top:25px}</style></head><body><main>
+<div class="hero"><div>✦ SoulWhispers ✦</div><h1>靈魂停看聽</h1><p>從迷惘出發，收集牌卡、星象與當下狀態的線索。</p>
+<div class="chips"><span class="chip">① 迷惘</span><span class="chip">② 牌卡</span><span class="chip">③ 占星</span><span class="chip">④ 能量相機＋芳香</span><span class="chip">⑤ Soul Guidance</span></div></div>
+
+<section class="card"><div class="step">01 · 此刻的迷惘</div><h2>你現在最想看清什麼？</h2><select id="topic"><option>感情</option><option>工作</option><option>金錢</option><option>家庭</option><option>人際</option><option>自我探索</option><option>我也不知道，只是最近很迷惘</option></select><textarea id="question" placeholder="寫下最近讓你反覆思考的事……"></textarea></section>
+
+<section class="card"><div class="step">02 · 牌卡指引</div><h2>Tarot × Lenormand</h2><p>先做可實際抽牌的串接版。正式版可再換回你已完成的牌面圖片。</p><div class="row"><button onclick="drawTarot()">抽 3 張塔羅</button><button class="gold" onclick="drawLen()">抽 3 張雷諾曼</button></div><div class="result" id="cards">尚未抽牌</div></section>
+
+<section class="card"><div class="step">03 · 個人星圖</div><h2>Astrology</h2><p>這一版先收集完整出生資料；星盤數值不由 AI 猜。精確計算版將使用瀏覽器 Swiss Ephemeris，包含行星度數、上升、MC、宮位與相位。</p>
+<div class="row"><div><label>出生日期</label><input id="bd" type="date"></div><div><label>出生時間</label><input id="bt" type="time"></div></div><label>出生地點</label><input id="bp" placeholder="例如：桃園市"><div class="small">出生地點很重要，因為上升與宮位需要經緯度；不知道出生時間仍可使用，但不顯示不可靠的上升與宮位。</div>
+<button onclick="saveAstro()">保存出生資料</button><div class="result" id="astro">尚未建立出生資料</div></section>
+
+<section class="card" id="energy-section"><div class="step">04 · 當下狀態</div><h2>Energy Camera × 芳香支持</h2><p>做完 Energy Camera 後，按「保存本次顯影・繼續靈魂旅程」，結果會自動帶回這裡。接著選擇芳香支持，再前往 Soul Guidance。</p>
+<a class="btn" href="energy-camera-v8.html">開啟 Energy Camera v8</a><div class="result" id="energy">尚未帶回 Energy Camera 結果（這一步可以略過）</div>
+<label>此刻最希望被支持的是？</label><select id="aroma"><option>放鬆與安定</option><option>提振與行動力</option><option>專注與清晰</option><option>情緒陪伴</option><option>睡前沉澱</option></select><button class="gold" onclick="aroma()">取得芳香方向</button><div class="result" id="aromaR">尚未選擇</div></section>
+
+<section class="card"><div class="step">05 · Soul Guidance</div><h2>整理成一份完整資料</h2><p>按一下就把前面的資料整理好，再貼給你慣用的 AI 做交叉分析。</p><div class="result" id="pack">尚未產生</div><button onclick="makePack()">產生完整資料包</button><button class="gold" onclick="copyPack()">複製給 AI</button></section>
+
+<div class="footer">靈魂停看聽 SoulWhispers<br><a href="https://www.facebook.com/share/1FKjKWxcec/?mibextid=wwXIfr" target="_blank">前往 SoulWhispers Facebook 社群</a></div>
+<script>
+const tarot=["The Fool 愚者","The Magician 魔術師","The High Priestess 女祭司","The Empress 皇后","The Emperor 皇帝","The Hierophant 教皇","The Lovers 戀人","The Chariot 戰車","Strength 力量","The Hermit 隱者","Wheel of Fortune 命運之輪","Justice 正義","The Hanged Man 吊人","Death 死神","Temperance 節制","The Devil 惡魔","The Tower 高塔","The Star 星星","The Moon 月亮","The Sun 太陽","Judgement 審判","The World 世界",...["Wands 權杖","Cups 聖杯","Swords 寶劍","Pentacles 錢幣"].flatMap(s=>["Ace","2","3","4","5","6","7","8","9","10","Page","Knight","Queen","King"].map(n=>n+" of "+s))];
+const len=["Rider 騎士","Clover 幸運草","Ship 船","House 房屋","Tree 樹","Clouds 雲","Snake 蛇","Coffin 棺材","Bouquet 花束","Scythe 鐮刀","Whip 鞭子","Birds 鳥","Child 孩子","Fox 狐狸","Bear 熊","Stars 星星","Stork 鸛鳥","Dog 狗","Tower 塔","Garden 花園","Mountain 山","Crossroads 十字路口","Mice 老鼠","Heart 心","Ring 戒指","Book 書","Letter 信","Man 男人","Woman 女人","Lily 百合","Sun 太陽","Moon 月亮","Key 鑰匙","Fish 魚","Anchor 錨","Cross 十字架"];
+let cardText="";
+function pick(a,n){let b=[...a],r=[];while(r.length<n){r.push(b.splice(Math.floor(Math.random()*b.length),1)[0])}return r}
+function drawTarot(){let r=pick(tarot,3).map(x=>x+(Math.random()<.5?"（正位）":"（逆位）"));cardText="塔羅："+r.join("｜");cards.textContent=cardText}
+function drawLen(){let r=pick(len,3);cardText+=(cardText?"\n":"")+"雷諾曼："+r.join("｜");cards.textContent=cardText}
+function saveAstro(){let d=bd.value,t=bt.value,p=bp.value;if(!d||!p){astro.textContent="請至少填寫出生日期與出生地點。";return}astro.textContent=`出生：${d} ${t||"時間未知"}｜${p}\n已保存。下一版接入精確星曆計算後，這裡會直接顯示行星、上升、宮位與主要相位。`;localStorage.setItem("sw_birth",JSON.stringify({d,t,p}))}
+function aroma(){let k=document.getElementById("aroma").value,map={"放鬆與安定":"真正接入芳療資料庫後，從安全條件與個人需求篩選 2～3 支精油。","提振與行動力":"真正接入芳療資料庫後，從安全條件與個人需求篩選 2～3 支精油。","專注與清晰":"真正接入芳療資料庫後，從安全條件與個人需求篩選 2～3 支精油。","情緒陪伴":"真正接入芳療資料庫後，從安全條件與個人需求篩選 2～3 支精油。","睡前沉澱":"真正接入芳療資料庫後，從安全條件與個人需求篩選 2～3 支精油。"};aromaR.textContent=k+"："+map[k]}
+function makePack(){let e=localStorage.getItem("sw_energy")||"未進行／尚未串回",b=localStorage.getItem("sw_birth");let B=b?JSON.parse(b):null;let s=`【SoulWhispers 靈魂停看聽｜Soul Guidance】\n\n【我的主題】${topic.value}\n【我的問題】${question.value||"尚未填寫"}\n\n【塔羅／雷諾曼】\n${cardText||"尚未抽牌"}\n\n【出生資料】\n${B?`${B.d} ${B.t||"時間未知"}｜${B.p}`:"尚未填寫"}\n【占星計算】精確星曆模組接入後自動帶入\n\n【Energy Camera｜CMOS 光學顯影】\n${e}\n\n【芳香支持需求】${document.getElementById("aroma").value}\n\n請交叉分析以上資料，協助我整理：核心課題、內在與現實的拉扯、值得留意的方向、可採取的具體行動，以及 2～3 支芳香支持建議與安全注意事項。不要把單一牌卡、占星配置或相機顯影視為必然結果。`;pack.textContent=s}
+async function copyPack(){if(pack.textContent==="尚未產生")makePack();try{await navigator.clipboard.writeText(pack.textContent);alert("已複製，可以貼給 AI。")}catch(e){alert("請長按資料內容手動複製。")}}
+let er=localStorage.getItem("sw_energy"),ed=localStorage.getItem("sw_energy_data");
+if(er){
+ let extra="";
+ try{
+   let D=JSON.parse(ed||"{}"), top=(D.colors||[])[0];
+   const meaning={玫瑰紅:"行動・生命力・界線",暖橙:"創造・互動・流動",淡金:"專注・自我力量・方向",青綠:"平衡・連結・恢復",青藍:"表達・清晰・溝通",霧藍:"平靜・沉澱・內在空間",紫羅蘭:"內省・想像・意義探索",玫紫:"感受・直覺・內在整合"};
+   if(top) extra=`\nSoulWhispers 象徵主題：${meaning[top.name]||"自我探索"}\n（象徵性詮釋，不是 CMOS 對心理狀態的直接測量）`;
+ }catch(e){}
+ energy.textContent="✓ Energy Camera 已完成\n"+er+extra;
+ setTimeout(()=>document.getElementById("energy-section").scrollIntoView({behavior:"smooth",block:"start"}),250);
+}
+let sb=localStorage.getItem("sw_birth");if(sb){let B=JSON.parse(sb);bd.value=B.d||"";bt.value=B.t||"";bp.value=B.p||""}
+</script></body></html>
