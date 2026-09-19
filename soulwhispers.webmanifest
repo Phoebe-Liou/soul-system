@@ -1,0 +1,9 @@
+{
+"name":"SoulWhispers 靈魂旅程","short_name":"SoulWhispers",
+"start_url":"./soulwhispers-starry-v8-astrology-pwa.html","scope":"./","display":"standalone",
+"background_color":"#111936","theme_color":"#111936","prefer_related_applications":false,
+"icons":[
+{"src":"./soulwhispers-icon-192.png?v=3","sizes":"192x192","type":"image/png","purpose":"any"},
+{"src":"./soulwhispers-icon-512.png?v=3","sizes":"512x512","type":"image/png","purpose":"any"},
+{"src":"./soulwhispers-icon-maskable-512.png?v=3","sizes":"512x512","type":"image/png","purpose":"maskable"}
+]}
