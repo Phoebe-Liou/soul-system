@@ -199,7 +199,7 @@ try{ localStorage.removeItem("sw_guidance_pack"); }catch(e){}
 </section>
 
 <section class="card" id="energy-section"><div class="step">【04｜當下狀態】</div><h2>Energy Camera × 芳香支持</h2><p>做完 Energy Camera 後，按「保存本次顯影・繼續靈魂旅程」，結果會自動帶回這裡。接著選擇芳香支持，再前往 Soul Guidance。</p>
-<a class="btn" href="energy-camera-v15-keywords.html">開啟 Energy Camera v8</a><div class="result" id="energy">尚未帶回 Energy Camera 結果（這一步可以略過）</div>
+<a class="btn" href="energy-camera-v20-journey.html">開啟 Energy Camera v8</a><div class="result" id="energy">尚未帶回 Energy Camera 結果（這一步可以略過）</div>
 <label>此刻最希望被支持的是？</label><select id="aroma"><option>放鬆與安定</option><option>提振與行動力</option><option>專注與清晰</option><option>情緒陪伴</option><option>睡前沉澱</option></select>
 <button class="gold" onclick="aroma()">取得適合我的芳香配方</button>
 <div class="result" id="aromaR">尚未選擇</div>
@@ -237,7 +237,7 @@ function saveQuestion(){
 function goCards(){
   const q=saveQuestion();
   if(!q){alert("請先在第 1 步寫下你現在想探索的問題。");document.getElementById("question").focus();return;}
-  const target = new URL("soulwhispers-cards-v17-clean-results.html", window.location.href);
+  const target = new URL("soulwhispers-cards-v20-journey.html", window.location.href);
   target.searchParams.set("q", q);
   target.searchParams.set("topic", document.getElementById("topic").value);
   window.location.href = target.href;
