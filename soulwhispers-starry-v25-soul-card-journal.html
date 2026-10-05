@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>SoulWhispers 靈魂旅程 v3</title>
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>SoulWhispers 靈魂旅程</title>
 <style>*{box-sizing:border-box}body{
   margin:0;
   color:#ece9f5;
@@ -27,7 +27,7 @@
   background:linear-gradient(135deg,#7c6aa5,#4f557f);
   color:#fffdf8;text-align:center;text-decoration:none;font-size:15px;font-weight:750;
   box-shadow:0 10px 24px rgba(25,20,50,.36);
-}.gold{background:linear-gradient(135deg,#bda46f,#806c3f)}.result{background:#f4f0f6;border-radius:13px;padding:12px;margin-top:10px;line-height:1.7}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.small{font-size:12px;color:#766e79;line-height:1.55}.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{background:#eee8f3;border-radius:999px;padding:7px 9px;font-size:12px}#pack{white-space:pre-wrap;font-size:12px}.footer{text-align:center;font-size:12px;line-height:1.8;margin-top:25px}
+}.gold{background:linear-gradient(135deg,#bda46f,#806c3f)}.result{background:#f4f0f6;border-radius:13px;padding:12px;margin-top:10px;line-height:1.7}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.small{font-size:12px;color:#766e79;line-height:1.55}.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{background:#eee8f3;border-radius:999px;padding:7px 9px;font-size:12px}#pack{white-space:pre-wrap;font-size:12px}#cards,#energy,#aromaR{white-space:pre-wrap}.footer{text-align:center;font-size:12px;line-height:1.8;margin-top:25px}
 .socialCard{margin-top:18px;padding:18px 16px;border:1px solid #cbb583;border-radius:18px;background:#fffdf9;text-align:center}
 .socialTitle{font-size:17px;font-weight:800;color:#554d66;margin-bottom:6px}
 .socialText{font-size:13px;line-height:1.7;color:#766e79;margin-bottom:12px}
@@ -166,12 +166,10 @@ body:after{
 <meta name="theme-color" content="#111936">
 <link rel="apple-touch-icon" sizes="180x180" href="./soulwhispers-touch-icon-v13.png">
 <link rel="icon" type="image/png" sizes="180x180" href="./soulwhispers-touch-icon-v13.png">
-<link rel="manifest" href="./soulwhispers.webmanifest?v=3">
-<meta name="theme-color" content="#111936">
+<link rel="manifest" href="./soulwhispers.webmanifest?v=4">
 <script>
 try{ localStorage.removeItem("sw_guidance_pack"); }catch(e){}
 </script>
-<script>try{localStorage.removeItem("sw_guidance_pack");}catch(e){}</script>
 
 <style id="swCardJournalStyle">
 .soulJournalBtn{margin:15px 0 2px;padding:12px 18px;border:1px solid rgba(216,196,141,.55);border-radius:999px;background:linear-gradient(135deg,rgba(238,225,184,.18),rgba(170,143,205,.18));color:#f1e5b8;font-weight:800;letter-spacing:.04em;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.12)}
@@ -219,8 +217,8 @@ try{ localStorage.removeItem("sw_guidance_pack"); }catch(e){}
 <div class="small" style="margin-top:10px">星體位置採熱帶黃道；宮位預設 Placidus。出生地搜尋由 OpenStreetMap Nominatim 提供，星曆引擎載入約 2 MB，第一次開啟可能需要數秒。</div>
 </section>
 
-<section class="card" id="energy-section"><div class="step">【04｜當下狀態】</div><h2>Energy Camera × 芳香支持</h2><p>做完 Energy Camera 後，按「保存本次顯影・繼續靈魂旅程」，結果會自動帶回這裡。接著選擇芳香支持，再前往 Soul Guidance。</p>
-<a class="btn" href="energy-camera-v25-journey.html">開啟 Energy Camera v8</a><div class="result" id="energy">尚未帶回 Energy Camera 結果（這一步可以略過）</div>
+<section class="card" id="energy-section"><div class="step">【04｜當下狀態】</div><h2>Energy Camera × 芳香支持</h2><p>做完 Energy Camera 後，按「保存顯影・繼續靈魂旅程」，結果會自動帶回這裡。接著選擇芳香支持，再前往 Soul Guidance。</p>
+<a class="btn" href="energy-camera-v25-journey.html">開啟 Energy Camera</a><div class="result" id="energy">尚未帶回 Energy Camera 結果（這一步可以略過）</div>
 <label>此刻最希望被支持的是？</label><select id="aroma"><option>放鬆與安定</option><option>提振與行動力</option><option>專注與清晰</option><option>情緒陪伴</option><option>睡前沉澱</option></select>
 <button class="gold" onclick="aroma()">取得適合我的芳香配方</button>
 <div class="result" id="aromaR">尚未選擇</div>
@@ -276,9 +274,9 @@ function aroma(){
  const blends={
  "放鬆與安定":["真正薰衣草 2 滴＋乳香 1 滴","適合想把節奏放慢、留一點安靜空間給自己的時候。"],
  "提振與行動力":["薄荷 1 滴＋迷迭香 1 滴＋葡萄柚 1 滴","適合精神低落、想重新啟動一天節奏的時候。"],
- "專注與清晰":["薰衣草 1 滴＋迷迭香 1 滴","適合工作、閱讀或需要整理思緒的時候。"],
+ "專注與清晰":["真正薰衣草 1 滴＋迷迭香 1 滴","適合工作、閱讀或需要整理思緒的時候。"],
  "情緒陪伴":["真正薰衣草 1 滴＋乳香 1 滴＋玫瑰天竺葵 1 滴","適合想給自己一點柔和、安定陪伴的時候。"],
- "睡前沉澱":["薰衣草 1 滴＋甜馬鬱蘭 1 滴＋佛手柑 1 滴","適合睡前放慢節奏與建立安靜的睡前儀式。"]};
+ "睡前沉澱":["真正薰衣草 1 滴＋甜馬鬱蘭 1 滴＋佛手柑 1 滴","適合睡前放慢節奏與建立安靜的睡前儀式。"]};
  const x=blends[k];
  document.getElementById("aromaR").textContent=`${k}
 
@@ -325,6 +323,8 @@ function buildPlainAstroSummary(raw, q, topic){
  }
  const P={};
  planetNames.forEach(n=>{const x=grab(n);if(x)P[n]=x;});
+ // 沒有出生時間時以中午估算，月亮一天約移動 13°，星座可能不準，不拿來判讀
+ if(/時間未知/.test(text)) delete P["月亮"];
  const asc=grab("上升"), mc=grab("MC");
 
  const element={
@@ -646,7 +646,9 @@ if(er){
  energy.textContent="✓ Energy Camera 已完成\n"+er+(ew?"\n\n色彩象徵詞彙："+ew:"")+extra;
  setTimeout(()=>document.getElementById("energy-section").scrollIntoView({behavior:"smooth",block:"start"}),250);
 }
-let sb=localStorage.getItem("sw_birth");if(sb){let B=JSON.parse(sb);bd.value=B.d||"";bt.value=B.t||"";bp.value=B.p||""}
+let sb=localStorage.getItem("sw_birth");if(sb){try{let B=JSON.parse(sb);bd.value=B.d||"";bt.value=B.t||"";bp.value=B.p||""}catch(e){}}
+let sa=localStorage.getItem("sw_astro_summary");
+if(sa){document.getElementById("astro").style.whiteSpace="pre-wrap";document.getElementById("astro").textContent="✓ 個人星圖已計算完成，會自動整理進「05 靈魂指引」。\n若要看完整星圖或修改出生資料，再按一次上方按鈕即可。\n\n"+sa.replace(/\\n/g,"\n").split("\n").slice(0,6).join("\n");}
 
 document.getElementById("question").addEventListener("input",saveQuestion);
 document.getElementById("topic").addEventListener("change",saveQuestion);
@@ -658,7 +660,7 @@ function resetJourney(){
   if(!ok) return;
   [
     "sw_question","sw_topic","sw_cards_data","sw_cards_summary",
-    "sw_birth","sw_energy","sw_energy_data","sw_energy_words","sw_guidance_pack"
+    "sw_birth","sw_astro_summary","sw_energy","sw_energy_data","sw_energy_words","sw_guidance_pack"
   ].forEach(k=>localStorage.removeItem(k));
   document.getElementById("question").value="";
   document.getElementById("topic").selectedIndex=0;
@@ -666,7 +668,7 @@ function resetJourney(){
   document.getElementById("bd").value="";
   document.getElementById("bt").value="";
   document.getElementById("bp").value="";
-  document.getElementById("astro").textContent="尚未建立出生資料";
+  document.getElementById("astro").textContent="等待你的出生資料 ✦";
   document.getElementById("energy").textContent="尚未帶回 Energy Camera 結果（這一步可以略過）";
   document.getElementById("aromaR").textContent="尚未選擇";
   document.getElementById("pack").textContent="尚未產生";
@@ -696,8 +698,7 @@ function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&l
 function norm(x){return ((x%360)+360)%360}
 function zodiac(lon){
   lon=norm(lon); const i=Math.floor(lon/30), within=lon%30;
-  let d=Math.floor(within), min=Math.round((within-d)*60);
-  if(min===60){d++;min=0}
+  const totalMin=Math.floor(within*60+1e-9), d=Math.floor(totalMin/60), min=totalMin%60;
   return {i, sign:SIGNS[i], symbol:SYMBOLS[i], text:`${SIGNS[i]} ${d}°${String(min).padStart(2,'0')}′`};
 }
 function angularDiff(a,b){let d=Math.abs(norm(a)-norm(b));return d>180?360-d:d}
@@ -737,13 +738,22 @@ async function geocode(place){
   return g;
 }
 async function timezoneFor(lat,lon){
-  const u=`https://timeapi.io/api/TimeZone/coordinate?latitude=${encodeURIComponent(lat)}&longitude=${encodeURIComponent(lon)}`;
-  const r=await fetch(u);
-  if(!r.ok) throw new Error('時區查詢失敗');
-  const j=await r.json();
-  const z=j.timeZone||j.timezone;
-  if(!z) throw new Error('無法判定出生地時區');
-  return z;
+  const key='sw_tz_'+lat.toFixed(3)+','+lon.toFixed(3);
+  try{const c=localStorage.getItem(key); if(c) return c}catch(e){}
+  const save=z=>{try{localStorage.setItem(key,z)}catch(e){} return z};
+  // 1) timeapi.io
+  try{
+    const r=await fetch(`https://timeapi.io/api/TimeZone/coordinate?latitude=${encodeURIComponent(lat)}&longitude=${encodeURIComponent(lon)}`);
+    if(r.ok){const j=await r.json(); const z=j.timeZone||j.timezone; if(z) return save(z);}
+  }catch(e){}
+  // 2) 備案：Open-Meteo
+  try{
+    const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${encodeURIComponent(lat)}&longitude=${encodeURIComponent(lon)}&timezone=auto&forecast_days=1`);
+    if(r.ok){const j=await r.json(); if(j.timezone && j.timezone!=='GMT') return save(j.timezone);}
+  }catch(e){}
+  // 3) 最後備案：台灣（含金門、馬祖、澎湖）直接使用台灣時區
+  if(lat>=21.8&&lat<=26.5&&lon>=118&&lon<=122.2) return 'Asia/Taipei';
+  throw new Error('時區查詢服務暫時無法連線，請稍後再試');
 }
 function aspects(planets){
   const out=[];
@@ -777,6 +787,7 @@ window.calculateSoulChart=async function(){
   if(!date||!place){box.textContent='請至少輸入出生日期與出生地點。';return}
   if(!swe){box.textContent='星曆仍在載入，請稍候再試。';return}
   btn.disabled=true; btn.textContent='✦ 正在計算你的星圖…';
+  box.style.whiteSpace='normal';
   box.innerHTML='<div class="astro-status">正在定位出生地、換算時區並計算星曆…</div>';
   try{
     const [y,m,d]=date.split('-').map(Number);
@@ -841,6 +852,9 @@ window.calculateSoulChart=async function(){
     let html=`<div class="astro-head"><strong>✦ 我的個人星圖 ✦</strong>
       <div class="astro-meta">${esc(date)} ${esc(time||'時間未知')}｜${esc(place)}<br>
       ${esc(zone)} ${offsetText}｜${geo.lat.toFixed(4)}, ${geo.lon.toFixed(4)}</div></div>`;
+    if(!hasTime){
+      html+=`<div class="astro-note" style="margin-bottom:10px">⚠️ 沒有出生時間時，以當天中午 12:00 估算。月亮一天約移動 13°，月亮星座可能不準；上升、天頂與宮位無法計算。</div>`;
+    }
     if(hasTime && !cusps){
       html+=`<div class="note">⚠️ Placidus 宮位計算沒有完成：${esc(houseError||'未知錯誤')}。行星星座仍可參考，但 ASC、MC 與落宮暫不顯示。</div>`;
     }
@@ -855,7 +869,7 @@ window.calculateSoulChart=async function(){
     for(const p of planets){
       const zz=zodiac(p.lon), retro=p.speed<0?' ℞':'';
       html+=`<div class="planet-item">
-        <div class="pname">${p.symbol} ${p.name}${retro}</div>
+        <div class="pname">${p.symbol} ${p.name}${retro}${!hasTime&&p.key==='Moon'?'（僅供參考）':''}</div>
         <div class="ppos">${zz.text}</div>
         <div class="phouse">${p.house?`第 ${p.house} 宮`:(hasTime?'宮位計算失敗':'出生時間未知')}</div>
       </div>`;

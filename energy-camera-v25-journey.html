@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Energy Camera v8 · SoulWhispers Journey</title>
+<title>Energy Camera · SoulWhispers Journey</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(155deg,#faf6ef,#eee8f5);color:#554d66;font-family:-apple-system,BlinkMacSystemFont,"PingFang TC",sans-serif}
 main{max-width:720px;margin:auto;padding:16px 14px 48px}h1{text-align:center;font:700 30px Georgia,serif;margin:8px}.sub{text-align:center;font-size:13px}
@@ -16,11 +16,11 @@ video,#photo,#fx{position:absolute;inset:0;width:100%;height:100%;object-fit:cov
 details{margin-top:12px;border-top:1px solid #ddd2bf;padding-top:10px}summary{cursor:pointer;font-weight:700}.event{background:#f4f0f6;border-radius:12px;padding:9px;margin:7px 0;font-size:12px;line-height:1.55}.note{font-size:12px;line-height:1.65;color:#746b7a}#work{display:none}.journey{margin-top:14px}.journey button{width:100%;background:#b89b63}.saved{font-size:12px;text-align:center;margin-top:8px;color:#756b78}
 </style></head>
 <body><main>
-<h1>Energy Camera v8</h1><div class="sub">SoulWhispers · CMOS 自由光學訊號顯影</div>
+<h1>Energy Camera</h1><div class="sub">SoulWhispers · CMOS 自由光學訊號顯影</div>
 
 <div class="card">
 <div class="stage"><video id="v" autoplay muted playsinline></video><canvas id="photo"></canvas><canvas id="fx"></canvas><div class="guide"></div></div>
-<div class="status" id="status">前 3 秒建立空景基準；後 7 秒自由追蹤人物與周圍空間。</div>
+<div class="status" id="status">請先把手機固定好（靠在書本或腳架上）。按下開始後：先離開畫面讓相機記錄 3 秒空景，聽到倒數後再走進畫面 7 秒。</div>
 <div class="bar"><i id="progress"></i></div>
 <div class="buttons"><button id="go">開始 10 秒掃描</button><button class="alt" id="flip">切換鏡頭</button></div>
 </div>
@@ -44,10 +44,11 @@ details{margin-top:12px;border-top:1px solid #ddd2bf;padding-top:10px}summary{cu
 </main>
 <script>
 const $=s=>document.querySelector(s),v=$('#v'),w=$('#work'),x=w.getContext('2d',{willReadFrequently:true}),statusEl=$('#status'),progress=$('#progress');
-let stream,face='user',busy=false,lastSoulResult=null;const GW=10,GH=8,N=80,FPS=8;
-async function camera(){if(stream)stream.getTracks().forEach(t=>t.stop());stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:face}},audio:false});v.srcObject=stream;await v.play()}
-camera().catch(()=>statusEl.textContent='請允許瀏覽器使用相機。');
-flip.onclick=async()=>{if(busy)return;face=face==='user'?'environment':'user';try{await camera()}catch(e){}};
+let stream,face='user',busy=false,lastSoulResult=null,camReady=false;const GW=10,GH=8,N=80,FPS=8;
+async function camera(){camReady=false;if(stream)stream.getTracks().forEach(t=>t.stop());if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw new Error('這個瀏覽器不支援相機');stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:face}},audio:false});v.srcObject=stream;await v.play();camReady=true}
+function cameraHelp(){statusEl.textContent='無法使用相機：請在瀏覽器設定中允許本網站使用相機，然後重新整理頁面。（LINE、Facebook 內建瀏覽器可能不支援，請改用 Safari 或 Chrome 開啟）'}
+camera().catch(cameraHelp);
+flip.onclick=async()=>{if(busy)return;face=face==='user'?'environment':'user';try{await camera()}catch(e){cameraHelp()}};
 const L=a=>.2126*a[0]+.7152*a[1]+.0722*a[2],sleep=m=>new Promise(r=>setTimeout(r,m));
 function frame(){x.drawImage(v,0,0,160,120);let d=x.getImageData(0,0,160,120).data,C=Array.from({length:N},()=>[0,0,0,0]),A=[0,0,0,0];
 for(let y=0;y<120;y++)for(let q=0;q<160;q++){let i=(y*160+q)*4,k=Math.min(GW-1,Math.floor(q/160*GW))+GW*Math.min(GH-1,Math.floor(y/120*GH)),r=d[i],g=d[i+1],b=d[i+2],c=C[k];c[0]+=r;c[1]+=g;c[2]+=b;c[3]++;A[0]+=r;A[1]+=g;A[2]+=b;A[3]++}
@@ -70,10 +71,10 @@ const SOUL_COLOR_WORDS={
 };
 function soulWords(name){return SOUL_COLOR_WORDS[name]||SOUL_COLOR_WORDS["中性"];}
 
-go.onclick=async()=>{if(busy)return;busy=true;go.disabled=flip.disabled=true;$('#result').style.display='none';$('#photo').style.display=$('#fx').style.display='none';progress.style.width='0%';
+go.onclick=async()=>{if(busy)return;if(!camReady||!v.videoWidth){try{await camera()}catch(e){cameraHelp();return}if(!v.videoWidth){cameraHelp();return}}busy=true;go.disabled=flip.disabled=true;$('#result').style.display='none';$('#photo').style.display=$('#fx').style.display='none';progress.style.width='0%';
 try{
-statusEl.textContent='3 秒空景校準：請離開畫面，手機不要移動。';let A=await collect(3,0,30),bc=meanCells(A.A),ba=meanAll(A.A);
-statusEl.textContent='請進入畫面…';await sleep(650);statusEl.textContent='7 秒自由追蹤：保持自然，手機不要移動。';let B=await collect(7,30,100),pa=meanAll(B.A);
+for(let n=3;n>0;n--){statusEl.textContent=`請離開畫面…${n}`;await sleep(1000)}statusEl.textContent='3 秒空景校準：請保持在畫面外，手機不要移動。';let A=await collect(3,0,30),bc=meanCells(A.A),ba=meanAll(A.A);
+for(let n=3;n>0;n--){statusEl.textContent=`空景完成，請走進畫面…${n}`;await sleep(1000)}statusEl.textContent='7 秒自由追蹤：保持自然，手機不要移動。';let B=await collect(7,30,100),pa=meanAll(B.A);
 let active=Array.from({length:N},()=>[]),mags=Array.from({length:N},()=>[]),hues=Array.from({length:N},()=>[]);
 B.A.forEach(f=>{let global=[0,1,2].map(c=>f.a[c]-ba[c]);for(let k=0;k<N;k++){let d=[0,1,2].map(c=>f.c[k][c]-bc[k][c]-global[c]),mag=Math.hypot(...d),h=hue(128+d[0]*3,128+d[1]*3,128+d[2]*3);active[k].push(mag>=11);mags[k].push(mag);hues[k].push(h)}});
 let events=[];
